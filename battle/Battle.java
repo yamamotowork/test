@@ -27,9 +27,9 @@ public class Battle {
 	}
 
 
-
+errorも吐かせる
 
 }
 
-
+//追加のテスト
 
