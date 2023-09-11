@@ -5,6 +5,8 @@ import player.Player;
 
 public class Battle {
 
+	//github確認テスト
+
 	public static void battle(Player p,Enemy e) {
 		while(p.getHp() > 0 && e.getHp() > 0) {
 			p.attack(e);
@@ -28,3 +30,6 @@ public class Battle {
 
 
 }
+
+
+
