@@ -12,9 +12,12 @@ public abstract class Player {
 	private String equipmentName;
 	private int Max_HP;
 	private int Max_MP;
-	private String smallAtk;
-	private String mediumAtk;
-	private String largeAtk;
+	private String smallAtkName;
+	private String mediumAtkName;
+	private String largeAtkName;
+	private int smallAtkDmg;
+	private int mediumAtkDmg;
+	private int largeAtkDmg;
 	//private int speed;
 	//弱、中、強ランクの技を用意するかメソッドで乱数で威力設定
 
@@ -24,13 +27,31 @@ public abstract class Player {
 	public void attack(Enemy e) {
 		System.out.println(this.name + "の攻撃！");
 		int dmg = this.atk - e.getDef();
+		int resetDmg = this.atk - e.getDef();
+		int randomMove = new java.util.Random().nextInt(9);
+
+		if(randomMove <5) {
+			dmg += this.smallAtkDmg;
+			System.out.println(this.name + "の" + this.smallAtkName);
+		}else if(randomMove < 7) {
+			dmg += this.mediumAtkDmg;
+			System.out.println(this.name + "の" + this.mediumAtkName);
+		}else if(randomMove < 8){
+			dmg += this.largeAtkDmg;
+			System.out.println(this.name + "の" + this.largeAtkName);
+		}else {
+			this.Heal();
+
+		}
 		if (new java.util.Random().nextInt(100) < 2 + this.crit) {
 			dmg *= 2;
 			System.out.println("クリティカルヒット！");
 		}
 		e.setHp(e.getHp() - dmg);
+
 		System.out.println(e.getName() + "に" + dmg + "のダメージを与えた");
 		System.out.println(e.getName() + "の残りHPは" + e.getHp());
+		dmg = resetDmg;
 
 	}
 
@@ -126,28 +147,54 @@ public abstract class Player {
 		Max_MP = max_MP;
 	}
 
-	public String getSmallAtk() {
-		return smallAtk;
+	public String getSmallAtkName() {
+		return smallAtkName;
 	}
 
-	public void setSmallAtk(String smallAtk) {
-		this.smallAtk = smallAtk;
+	public void setSmallAtkName(String smallAtkName) {
+		this.smallAtkName = smallAtkName;
 	}
 
-	public String getMediumAtk() {
-		return mediumAtk;
+	public String getMediumAtkName() {
+		return mediumAtkName;
 	}
 
-	public void setMediumAtk(String mediumAtk) {
-		this.mediumAtk = mediumAtk;
+	public void setMediumAtkName(String mediumAtkName) {
+		this.mediumAtkName = mediumAtkName;
 	}
 
-	public String getLargeAtk() {
-		return largeAtk;
+	public String getLargeAtkName() {
+		return largeAtkName;
 	}
 
-	public void setLargeAtk(String largeAtk) {
-		this.largeAtk = largeAtk;
+	public void setLargeAtkName(String largeAtkName) {
+		this.largeAtkName = largeAtkName;
 	}
+
+	public int getSmallAtkDmg() {
+		return smallAtkDmg;
+	}
+
+	public void setSmallAtkDmg(int smallAtkDmg) {
+		this.smallAtkDmg = smallAtkDmg;
+	}
+
+	public int getMediumAtkDmg() {
+		return mediumAtkDmg;
+	}
+
+	public void setMediumAtkDmg(int mediumAtkDmg) {
+		this.mediumAtkDmg = mediumAtkDmg;
+	}
+
+	public int getLargeAtkDmg() {
+		return largeAtkDmg;
+	}
+
+	public void setLargeAtkDmg(int largeAtkDmg) {
+		this.largeAtkDmg = largeAtkDmg;
+	}
+
+
 
 }

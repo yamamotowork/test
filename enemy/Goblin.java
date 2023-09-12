@@ -10,9 +10,9 @@ public class Goblin extends Enemy {
 	this.setCrit(5);
 	this.setName("ゴブリン");
 	this.setEnemyStrength("normal");
-	this.setSmallAtk(10);
-	this.setMediumAtk(20);
-	this.setLargeAtk(30);
+	this.setSmallAtkDmg(10);
+	this.setMediumAtkDmg(20);
+	this.setLargeAtkDmg(30);
 	this.setSmallAtkName("子パン");
 	this.setMediumAtkName("中キック");
 	this.setLargeAtkName("大パン");
