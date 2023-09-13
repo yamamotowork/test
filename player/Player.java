@@ -18,17 +18,21 @@ public abstract class Player {
 	private int smallAtkDmg;
 	private int mediumAtkDmg;
 	private int largeAtkDmg;
+	private int resetAtk;
 	//private int speed;
 	//弱、中、強ランクの技を用意するかメソッドで乱数で威力設定
+
+	//ステータス倍率変更
 
 
 	//wizard の作成
 
 	public void attack(Enemy e) {
-		System.out.println(this.name + "の攻撃！");
+		//System.out.println(this.name + "の攻撃！");
 		int dmg = this.atk - e.getDef();
 		int resetDmg = this.atk - e.getDef();
 		int randomMove = new java.util.Random().nextInt(9);
+		int AtkUpCount = 0;
 
 		if(randomMove <5) {
 			dmg += this.smallAtkDmg;
@@ -39,18 +43,29 @@ public abstract class Player {
 		}else if(randomMove < 8){
 			dmg += this.largeAtkDmg;
 			System.out.println(this.name + "の" + this.largeAtkName);
-		}else {
-			this.Heal();
-
 		}
 		if (new java.util.Random().nextInt(100) < 2 + this.crit) {
 			dmg *= 2;
 			System.out.println("クリティカルヒット！");
 		}
-		e.setHp(e.getHp() - dmg);
 
-		System.out.println(e.getName() + "に" + dmg + "のダメージを与えた");
-		System.out.println(e.getName() + "の残りHPは" + e.getHp());
+		if(randomMove < 8) {
+			e.setHp(e.getHp() - dmg);
+			System.out.println(e.getName() + "に" + dmg + "のダメージを与えた");
+			System.out.println(e.getName() + "の残りHPは" + e.getHp());
+		}else {
+			this.atkPowerUp();
+			AtkUpCount = 3;
+
+		}
+
+		AtkUpCount--;
+		if(AtkUpCount != 0) {
+			System.out.println("バイキルトの効果は残り" + AtkUpCount);
+
+		}else {
+			System.out.println("バイキルトの効果が消えてしまった");
+		}
 		dmg = resetDmg;
 
 	}
@@ -68,6 +83,16 @@ public abstract class Player {
 			System.out.println(this.hp + "まで回復した、回復量：" + this.Max_HP / 10);
 		}
 
+	}
+	public void atkPowerUp() {
+		System.out.println(this.name + "のバイキルト");
+		this.atk *= 2;
+		System.out.println(this.name + "のATKは" + this.atk);
+
+
+	}
+	public void resetAtk() {
+		this.atk = this.resetAtk;
 	}
 
 	public void Small() {
@@ -193,6 +218,14 @@ public abstract class Player {
 
 	public void setLargeAtkDmg(int largeAtkDmg) {
 		this.largeAtkDmg = largeAtkDmg;
+	}
+
+	public int getResetAtk() {
+		return resetAtk;
+	}
+
+	public void setResetAtk(int resetAtk) {
+		this.resetAtk = resetAtk;
 	}
 
 

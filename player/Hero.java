@@ -9,6 +9,7 @@ public class Hero extends Player {
 		this.setHp(100);
 		this.setMp(10);
 		this.setAtk(50);
+		this.setResetAtk(50);
 		this.setDef(20);
 		this.setCrit(0);
 		this.setMax_HP(100);
