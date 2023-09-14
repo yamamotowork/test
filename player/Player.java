@@ -19,6 +19,7 @@ public abstract class Player {
 	private int mediumAtkDmg;
 	private int largeAtkDmg;
 	private int resetAtk;
+	private int AtkUpCount;
 	//private int speed;
 	//弱、中、強ランクの技を用意するかメソッドで乱数で威力設定
 
@@ -32,7 +33,7 @@ public abstract class Player {
 		int dmg = this.atk - e.getDef();
 		int resetDmg = this.atk - e.getDef();
 		int randomMove = new java.util.Random().nextInt(9);
-		int AtkUpCount = 0;
+
 
 		if(randomMove <5) {
 			dmg += this.smallAtkDmg;
@@ -55,17 +56,19 @@ public abstract class Player {
 			System.out.println(e.getName() + "の残りHPは" + e.getHp());
 		}else {
 			this.atkPowerUp();
-			AtkUpCount = 3;
+			this.AtkUpCount = 3;
 
 		}
+		if(this.AtkUpCount > 0) {
+			this.AtkUpCount--;
+			if(this.AtkUpCount > 0) {
+				System.out.println("バイキルトの効果は残り" + AtkUpCount);
 
-		AtkUpCount--;
-		if(AtkUpCount != 0) {
-			System.out.println("バイキルトの効果は残り" + AtkUpCount);
-
-		}else {
-			System.out.println("バイキルトの効果が消えてしまった");
+			}else {
+				System.out.println("バイキルトの効果が消えてしまった");
+			}
 		}
+
 		dmg = resetDmg;
 
 	}
@@ -226,6 +229,14 @@ public abstract class Player {
 
 	public void setResetAtk(int resetAtk) {
 		this.resetAtk = resetAtk;
+	}
+
+	public int getAtkUpCount() {
+		return AtkUpCount;
+	}
+
+	public void setAtkUpCount(int atkUpCount) {
+		AtkUpCount = atkUpCount;
 	}
 
 
