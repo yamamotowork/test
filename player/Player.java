@@ -18,23 +18,22 @@ public abstract class Player {
 	private int smallAtkDmg;
 	private int mediumAtkDmg;
 	private int largeAtkDmg;
-	private int resetAtk;
 	private int AtkUpCount;
 	//private int speed;
-	//弱、中、強ランクの技を用意するかメソッドで乱数で威力設定
-
-	//ステータス倍率変更
 
 
-	//wizard の作成
+
+
+
+
 
 	public void attack(Enemy e) {
-		//System.out.println(this.name + "の攻撃！");
+
 		int dmg = this.atk - e.getDef();
-		int resetDmg = this.atk - e.getDef();
+		//使う技の乱数
 		int randomMove = new java.util.Random().nextInt(9);
 
-
+		//威力小、中、大、バイキルトの判定
 		if(randomMove <5) {
 			dmg += this.smallAtkDmg;
 			System.out.println(this.name + "の" + this.smallAtkName);
@@ -45,34 +44,39 @@ public abstract class Player {
 			dmg += this.largeAtkDmg;
 			System.out.println(this.name + "の" + this.largeAtkName);
 		}
+		//クリティカル判定
 		if (new java.util.Random().nextInt(100) < 2 + this.crit) {
 			dmg *= 2;
 			System.out.println("クリティカルヒット！");
 		}
-
+		//バイキルトの時攻撃2倍、それ以外の時攻撃
 		if(randomMove < 8) {
 			e.setHp(e.getHp() - dmg);
 			System.out.println(e.getName() + "に" + dmg + "のダメージを与えた");
 			System.out.println(e.getName() + "の残りHPは" + e.getHp());
-		}else {
+		}else if(AtkUpCount == 0){
 			this.atkPowerUp();
 			this.AtkUpCount = 3;
-
+		}else {
+			this.AtkUpCount = 3;
 		}
+
+
+		//バイキルトの効果ターンの判定
 		if(this.AtkUpCount > 0) {
 			this.AtkUpCount--;
 			if(this.AtkUpCount > 0) {
 				System.out.println("バイキルトの効果は残り" + AtkUpCount);
-
 			}else {
 				System.out.println("バイキルトの効果が消えてしまった");
+				this.atk /= 2;
 			}
 		}
 
-		dmg = resetDmg;
+
 
 	}
-
+	//実装予定
 	public void Heal() {
 		System.out.println(this.name + "のヒール");
 		int hpHeal = this.Max_HP - this.Max_HP / 10;
@@ -94,9 +98,8 @@ public abstract class Player {
 
 
 	}
-	public void resetAtk() {
-		this.atk = this.resetAtk;
-	}
+
+
 
 	public void Small() {
 
@@ -221,14 +224,6 @@ public abstract class Player {
 
 	public void setLargeAtkDmg(int largeAtkDmg) {
 		this.largeAtkDmg = largeAtkDmg;
-	}
-
-	public int getResetAtk() {
-		return resetAtk;
-	}
-
-	public void setResetAtk(int resetAtk) {
-		this.resetAtk = resetAtk;
 	}
 
 	public int getAtkUpCount() {

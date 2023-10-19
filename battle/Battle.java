@@ -16,6 +16,7 @@ public class Battle {
 			e.attack(p);
 			if(!e.trueBattle() ) {
 				break;
+				//逃げる等の条件でバトル終了
 			}
 			if(p.getHp() <= 0) {
 				System.out.println(p.getName() + "は倒れてしまった");

@@ -23,7 +23,7 @@ public class Main {
 
 
 
-		Battle.battle(hero,goblin);
+		Battle.battle(legendHero,evilKing);
 //		System.out.println("現在の味方のステータスはhp" + legendHero.getHp() + "/mp" +
 //				legendHero.getMp() + "/atk" + legendHero.getAtk() + "/def" + legendHero.getDef() + "です"	);
 

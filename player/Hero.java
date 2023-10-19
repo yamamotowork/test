@@ -7,12 +7,11 @@ public class Hero extends Player {
 	public Hero() {
 
 		this.setHp(200);
+		this.setMax_HP(200);
 		this.setMp(10);
 		this.setAtk(50);
-		this.setResetAtk(50);
 		this.setDef(20);
 		this.setCrit(0);
-		this.setMax_HP(200);
 		this.setName("勇者");
 		this.setSmallAtkDmg(10);
 		this.setMediumAtkDmg(20);
@@ -23,6 +22,7 @@ public class Hero extends Player {
 
 		Sword sword = new Sword();
 		sword.statesBonus(this);
+		//装備品
 
 	}
 

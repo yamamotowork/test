@@ -19,21 +19,25 @@ public abstract class Enemy {
 	private int smallAtkDmg;
 	private int mediumAtkDmg;
 	private int largeAtkDmg;
+	int resetAtk;
 
 	//private int speed;
-	//弱、中、強ランクの技を用意するかメソッドで乱数で威力設定
-	//とりあえず技の威力係数は1倍、２倍、３倍 細かい威力は今後
-	//ゴブリンに技の名前と威力の設定
+
 
 	public void attack(Player p) {
 		System.out.println(this.name + "の攻撃！");
+		//技の命中率
 		int randomAttack = new java.util.Random().nextInt(10);
+		//技の威力小、中、大、ヒール等
 		int randomMove = new java.util.Random().nextInt(9);
 		int dmg = this.atk - p.getDef();
+		//強さのランクに応じて行動分岐
 		switch (enemyStrength) {
+		//メタル系
 		case "rare":
+			//基本逃げる、攻撃はデフォルトのみ
 			if (randomAttack < 5) {
-
+			    //技のクリティカル判定
 				if (new java.util.Random().nextInt(100) < 2 + this.crit) {
 					dmg *= 2;
 					System.out.println("クリティカルヒット！");
@@ -41,16 +45,25 @@ public abstract class Enemy {
 				p.setHp(p.getHp() - dmg);
 				System.out.println(p.getName() + "に" + dmg + "のダメージを与えた");
 				break;
-			} else {
+			} else if(randomAttack < 8){
 				System.out.println("しかし、攻撃が外れた！");
-
 			}
-			if (new java.util.Random().nextInt(100) < 100) {
+			//一定の確率で逃げる
+			if (new java.util.Random().nextInt(100) < 30) {
 				this.run();
 				break;
 			}
+		//スライム系等
 		case "weak":
 			if (randomAttack < 5) {
+				//技は中威力まで
+				if (randomMove < 3) {
+					System.out.println(this.name + "の" + this.smallAtkName);
+					dmg += this.smallAtkDmg;
+				}else if(randomMove < 5) {
+					dmg += this.mediumAtkDmg;
+					System.out.println(this.name + "の" + this.mediumAtkName);
+				}
 				if (new java.util.Random().nextInt(100) < 2 + this.crit) {
 					dmg *= 2;
 					System.out.println("クリティカルヒット！");
@@ -58,23 +71,17 @@ public abstract class Enemy {
 				p.setHp(p.getHp() - dmg);
 				System.out.println(p.getName() + "に" + dmg + "のダメージを与えた");
 				break;
-			} else {
+			} else if(randomAttack < 8){
 				System.out.println("しかし、攻撃が外れた！");
-
 			}
+
 			if (new java.util.Random().nextInt(100) < 10) {
 				this.run();
 				break;
 			}
-
+		//中盤くらいから出てくるやつら
 		case "normal":
-			//計算式とダメージのタイミングを変えれば解決
-			//そうすればatkの倍率変えた後にダメージ計算が行える
-			//最後に倍率を戻さないと永遠に上がり続ける
-			//最後にダメージと倍率戻しをやる
-			//this.MaxAtkとかでAtkに数値を代入して戻す
-
-			//そもそも技に威力を設定してダメージに足せばいい
+			//威力小、中、大、全てある
 			if (randomAttack < 8) {
 
 				if (randomMove < 5) {
@@ -86,12 +93,7 @@ public abstract class Enemy {
 				}else if(randomMove < 8){
 					dmg += this.largeAtkDmg;
 					System.out.println(this.name + "の" + this.largeAtkName);
-				}else {
-					this.Heal();
-					//回復したあと攻撃する問題あり、次回修正
-
 				}
-
 				if (new java.util.Random().nextInt(100) < 2 + this.crit) {
 					dmg *= 2;
 					System.out.println("クリティカルヒット！");
@@ -104,24 +106,45 @@ public abstract class Enemy {
 				System.out.println("しかし、攻撃が外れた！");
 				break;
 			}
-
+		//ボス
 		case "Strong":
-			if (this.hp < Max_HP / 3) {
+			//hp3割以下で狂乱状態 攻撃上昇、防御0
+			if (this.hp < Max_HP / 3 && this.resetAtk == 0) {
 				System.out.println(this.name + "は怒り出した");
 				this.atk *= 2;
 				this.def = 0;
+				//攻撃が永遠に上がるの防止
+				this.resetAtk = 1;
 			}
-
+			if (randomMove < 3) {
+				System.out.println(this.name + "の" + this.smallAtkName);
+				dmg += this.smallAtkDmg;
+			}else if(randomMove < 6) {
+				dmg += this.mediumAtkDmg;
+				System.out.println(this.name + "の" + this.mediumAtkName);
+			}else if(randomMove < 8){
+				dmg += this.largeAtkDmg;
+				System.out.println(this.name + "の" + this.largeAtkName);
+			}
 			if (new java.util.Random().nextInt(100) < 2 + this.crit) {
 				dmg *= 2;
 				System.out.println("クリティカルヒット！");
 			}
 			p.setHp(p.getHp() - dmg);
 			System.out.println(p.getName() + "に" + dmg + "のダメージを与えた");
+
 			break;
 		}
-
-		System.out.println(p.getName() + "の残りHPは" + p.getHp());
+		//1/9で全員ヒールを使う
+		if(randomMove == 8) {
+			Heal();
+			//ボスだけ2回使う
+			if(enemyStrength.equals("Strong")){
+				Heal();
+			}
+		}else {
+			System.out.println(p.getName() + "の残りHPは" + p.getHp());
+		}
 
 	}
 
